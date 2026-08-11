@@ -3,3 +3,9 @@ beautifulsoup4
 pandas
 openpyxl
 lxml
+Plaintext
+youtube-transcript-api
+google-generativeai
+pandas
+openpyxl
+scrapetube
