@@ -1,0 +1,33 @@
+name: 2022년~현재 핵심뉴스 1000개 수집 및 중요도 점수화
+
+on:
+  workflow_dispatch:  # 수동 실행 전용 (자동 실행 안 됨)
+
+jobs:
+  collect-historical:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run Historical Scraper Script
+      run: python collect_1000_historical.py
+
+    - name: Commit and Push Updated Excel DB
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action Bot"
+        git add accumulated_news.xlsx
+        git commit -m "Collect: Top 1000 Historical News (2022-2026) with Scores [$(date +'%Y-%m-%d %H:%M:%S')]" || exit 0
+        git push
